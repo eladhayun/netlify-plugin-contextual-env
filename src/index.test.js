@@ -12,58 +12,25 @@ describe('onPreBuild', () => {
     process.env = OLD_ENV;
   });
 
-  describe('with context prefix ENV overrides', () => {
+  describe('with site name ENV overrides', () => {
     it('sets ENV vars to the correct values', async () => {
+      process.env.SITE_NAME = 'site-a';
       process.env.DATABASE_URL = 'https://dev.com';
-      process.env.STAGING_DATABASE_URL = 'https://stage.com';
-      process.env.CONTEXT = 'staging';
-      await onPreBuild({ inputs: { mode: 'prefix' } });
+      process.env.SITE_A_DATABASE_URL = 'https://site-a.com';
+      await onPreBuild();
 
-      expect(process.env.DATABASE_URL).toBe(process.env.STAGING_DATABASE_URL);
-    });
-  });
-
-  describe('with suffix context prefix ENV overrides', () => {
-    it('sets ENV vars to the correct values', async () => {
-      process.env.DATABASE_URL = 'https://dev.com';
-      process.env.DATABASE_URL_STAGING = 'https://stage.com';
-      process.env.CONTEXT = 'staging';
-      await onPreBuild({ inputs: { mode: 'suffix' } });
-
-      expect(process.env.DATABASE_URL).toBe(process.env.DATABASE_URL_STAGING);
-    });
-  });
-
-  describe('with branch ENV overrides', () => {
-    it('sets ENV vars to the correct values', async () => {
-      process.env.DATABASE_URL = 'https://dev.com';
-      process.env.HELLO_DATABASE_URL = 'https://stage.com';
-      process.env.BRANCH = 'hello';
-      await onPreBuild({ inputs: { mode: 'prefix' } });
-
-      expect(process.env.DATABASE_URL).toBe(process.env.HELLO_DATABASE_URL);
-    });
-  });
-
-  describe('with suffix branch ENV overrides', () => {
-    it('sets ENV vars to the correct values', async () => {
-      process.env.DATABASE_URL = 'https://dev.com';
-      process.env.DATABASE_URL_HELLO = 'https://stage.com';
-      process.env.BRANCH = 'hello';
-      await onPreBuild({ inputs: { mode: 'suffix' } });
-
-      expect(process.env.DATABASE_URL).toBe(process.env.DATABASE_URL_HELLO);
+      expect(process.env.DATABASE_URL).toBe(process.env.SITE_A_DATABASE_URL);
     });
   });
 
   describe('without ENV overrides', () => {
     it('does not change ENV vars', async () => {
+      process.env.SITE_NAME = 'site-a';
       process.env.DATABASE_URL = 'https://dev.com';
-      process.env.DATABASE_URL_HELLO = 'https://dontsetme.com';
-      process.env.BRANCH = 'hello';
-      await onPreBuild({ inputs: { mode: 'suffix' } });
+      process.env.SITE_B_DATABASE_URL = 'https://dontsetme.com';
+      await onPreBuild();
 
-      expect(process.env.DATABASE_URL).toBe(process.env.DATABASE_URL_HELLO);
+      expect(process.env.DATABASE_URL).toBe('https://dev.com');
     });
   });
 });

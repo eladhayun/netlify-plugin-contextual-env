@@ -4,11 +4,10 @@ const util = require('util');
 /**
  * Overrides an ENV var with a value if it exists
  * @param {*} key the key to overwrite if found
- * @param {*} contextOrBranch the value to check
- * @param {*} mode the mode to use (prefix or suffix)
+ * @param {*} siteName the value to check
  */
-function setEnvWithValue(key, contextOrBranch, mode) {
-  const envVar = mode === 'prefix' ? `${contextOrBranch}_${key}` : `${key}_${contextOrBranch}`;
+function setEnvWithValue(key, siteName) {
+  const envVar = `${siteName}_${key}`;
 
   if (!process.env[envVar]) {
     return;
@@ -21,14 +20,11 @@ function setEnvWithValue(key, contextOrBranch, mode) {
 }
 
 module.exports = {
-  onPreBuild: async ({ inputs }) => {
-    const context = `${process.env.CONTEXT}`.toUpperCase().replace(/-/g, '_');
-    const branch = `${process.env.BRANCH}`.toUpperCase().replace(/-/g, '_');
-    const { mode } = inputs;
+  onPreBuild: async () => {
+    const siteName = `${process.env.SITE_NAME}`.toUpperCase().replace(/-/g, '_');
 
     const envOverrides = Object.keys(process.env).map((key) => [
-      setEnvWithValue(key, context, mode),
-      setEnvWithValue(key, branch, mode),
+      setEnvWithValue(key, siteName),
     ]);
 
     const replaced = [].concat(...envOverrides).filter(Boolean);
