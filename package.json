@@ -1,13 +1,13 @@
 {
-  "name": "netlify-plugin-contextual-env",
+  "name": "netlify-plugin-contextual-site-env",
   "version": "0.2.0",
-  "description": "A Netlify plugin to override ENV vars based on a branch or context",
+  "description": "A Netlify plugin to override ENV vars based on a site name",
   "main": "src/index",
-  "repository": "https://github.com/cball/netlify-plugin-contextual-env",
+  "repository": "https://github.com/eladhayun/netlify-plugin-contextual-env",
   "bugs": {
-    "url": "https://github.com/cball/netlify-plugin-contextual-env/issues"
+    "url": "https://github.com/eladhayun/netlify-plugin-contextual-env/issues"
   },
-  "author": "Chris Ball",
+  "author": "Elad Hayun",
   "license": "MIT",
   "private": false,
   "keywords": [
