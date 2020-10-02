@@ -7,6 +7,9 @@
   "bugs": {
     "url": "https://github.com/eladhayun/netlify-plugin-contextual-env/issues"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "author": "Elad Hayun",
   "license": "MIT",
   "private": false,
